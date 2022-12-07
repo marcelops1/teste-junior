@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\rules\cpfValidate;
 
 class PessoaStoreRequest extends FormRequest
 {
@@ -24,7 +25,20 @@ class PessoaStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nome' => 'required',
+            'sobrenome' => 'required',
+            'cpf' => ['required', 'unique', new cpfValidate],
+            'celular' => 'required|unique',
+            'logradouro' => 'required',
+            'cep' => 'required|cep',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório!',
+            'cpf.unique' => ':attribute já cadastrado no sistema!',
         ];
     }
 }

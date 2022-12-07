@@ -8,6 +8,7 @@ use App\Http\Requests\PessoaUpdateRequest;
 use App\Services\PessoaServiceInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\DB;
 
 class PessoaController extends Controller
 {
@@ -28,7 +29,11 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        //
+        $pessoa = $this->pessoaService->all();
+        if ($pessoa) {
+            return response()->json($pessoa, Response::HTTP_OK);
+        }
+        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -37,10 +42,17 @@ class PessoaController extends Controller
      */
     public function store(PessoaStoreRequest $request)
     {
-        $pessoa = $this->pessoaService->create($request->all());
+        DB::beginTransaction();
+        $pessoa = $this->pessoaService->create($request->validated());
         if ($pessoa) {
+
+            DB::commit();
+
             return response()->json($pessoa, Response::HTTP_OK);
+            
         }
+
+        DB::rollBack();
         return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 
@@ -66,7 +78,16 @@ class PessoaController extends Controller
      */
     public function update(PessoaUpdateRequest $request, $id)
     {
-        //
+        DB::beginTransaction();
+        $pessoa = $this->pessoaService->update($request->validated(), $id);
+        if ($pessoa) {
+
+            DB::commit();
+            return response()->json($pessoa, Response::HTTP_OK);
+        }
+        
+        DB::rollBack();
+        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -77,6 +98,10 @@ class PessoaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pessoa = $this->pessoaService->delete($id);
+        if ($pessoa) {
+            return response()->json($pessoa, Response::HTTP_OK);
+        }
+        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 }
