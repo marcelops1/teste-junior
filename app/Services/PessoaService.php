@@ -56,6 +56,6 @@ class PessoaService implements PessoaServiceInterface
      */
     public function update(array $data, int $id): ?Model
     {
-        return $this->pessoaRepo->update($id);
+        return $this->pessoaRepo->update($data, $id);
     }
 }
