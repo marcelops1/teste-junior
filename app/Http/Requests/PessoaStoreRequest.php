@@ -27,10 +27,10 @@ class PessoaStoreRequest extends FormRequest
         return [
             'nome' => 'required',
             'sobrenome' => 'required',
-            'cpf' => ['required', 'unique', new cpfValidate],
-            'celular' => 'required|unique',
+            'cpf' => ['required','unique:pessoas', new cpfValidate, 'alpha_num', 'numeric'],
+            'celular' => 'required|unique:pessoas',
             'logradouro' => 'required',
-            'cep' => 'required|cep',
+            'cep' => 'required',
         ];
     }
 
@@ -38,7 +38,9 @@ class PessoaStoreRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório!',
-            'cpf.unique' => ':attribute já cadastrado no sistema!',
+            'unique' => ':attribute já cadastrado no sistema!',
+            'alpha_num' => 'Digite apenas os números do seu CPF!',
+            'numeric'=> 'Digite apenas os números do seu CPF!'
         ];
     }
 }

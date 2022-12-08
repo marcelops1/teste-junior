@@ -40,6 +40,11 @@ class PessoaController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
+     public function cepValidation($cep) {
+        echo "$cep";
+      }
+
     public function store(PessoaStoreRequest $request)
     {
         DB::beginTransaction();
@@ -47,9 +52,7 @@ class PessoaController extends Controller
         if ($pessoa) {
 
             DB::commit();
-
             return response()->json($pessoa, Response::HTTP_OK);
-            
         }
 
         DB::rollBack();
