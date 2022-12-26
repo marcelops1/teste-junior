@@ -32,7 +32,7 @@ class PessoaService implements PessoaServiceInterface
      */
     public function all(): ?Collection
     {
-        // TODO: Implement all() method.
+        return $this->pessoaRepo->all();
     }
 
     /**
