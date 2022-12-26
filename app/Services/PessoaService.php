@@ -49,7 +49,7 @@ class PessoaService implements PessoaServiceInterface
      */
     public function delete(int $id): ?bool
     {
-        // TODO: Implement delete() method.
+        return $this->pessoaRepo->delete($id);
     }
 
     /**

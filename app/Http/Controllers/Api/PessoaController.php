@@ -82,6 +82,7 @@ class PessoaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->pessoaService->delete($id);
+        return response()->json(['status' => 'sucess', 'message' => 'Person deleted!'],Response::HTTP_OK);
     }
 }
