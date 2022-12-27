@@ -29,9 +29,8 @@ class PessoaController extends Controller
     public function index()
     {
         $people = $this->pessoaService->all();
-        if($people)
-        {
-            return response()->json($people, Response::HTTP_OK);
+        if ($people) {
+            return response()->json(['sucess' => true, 'payload' => $people], Response::HTTP_OK);
         }
         return response()->json($people, Response::HTTP_NOT_FOUND);
     }
@@ -44,7 +43,7 @@ class PessoaController extends Controller
     {
         $pessoa = $this->pessoaService->create($request->all());
         if ($pessoa) {
-            return response()->json($pessoa, Response::HTTP_OK);
+            return response()->json(['sucess' => true, 'message' => 'Pessoa created successfully!', 'payload' => $pessoa], Response::HTTP_CREATED);
         }
         return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
@@ -57,7 +56,7 @@ class PessoaController extends Controller
     {
         $pessoa = $this->pessoaService->find($id);
         if ($pessoa) {
-            return response()->json($pessoa, Response::HTTP_OK);
+            return response()->json(['sucess' => true, 'payload' => $pessoa], Response::HTTP_OK);
         }
         return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
@@ -83,6 +82,6 @@ class PessoaController extends Controller
     public function destroy($id)
     {
         $this->pessoaService->delete($id);
-        return response()->json(['status' => 'sucess', 'message' => 'Person deleted!'],Response::HTTP_OK);
+        return response()->json(['sucess' => true, 'message' => 'Person deleted with ID ' . $id], Response::HTTP_OK);
     }
 }
