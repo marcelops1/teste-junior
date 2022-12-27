@@ -61,6 +61,12 @@ class PessoaService implements PessoaServiceInterface
      */
     public function update(array $data, int $id): ?Model
     {
-        // TODO: Implement update() method.
+        if(isset($data['cpf'])){
+            $this->validateService->validateCpfOrFail($data['cpf']);
+        }
+        if(isset($data['cep'])){
+            $this->validateService->validateCepOrFail($data['cep']);
+        }
+        return $this->pessoaRepo->update($data, $id);
     }
 }

@@ -70,7 +70,11 @@ class PessoaController extends Controller
      */
     public function update(PessoaUpdateRequest $request, $id)
     {
-        //
+        $this->pessoaService->find($id);
+        
+        $pessoaUpdate = $this->pessoaService->update($request->all(), $id);
+
+        return response()->json(['sucess' => true, 'message' => 'Pessoa updated successfully', 'payload' => $pessoaUpdate], Response::HTTP_ACCEPTED);
     }
 
     /**
