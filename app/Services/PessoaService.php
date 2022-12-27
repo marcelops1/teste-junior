@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-
+use App\Entities\Pessoa;
 use App\Repositories\PessoaRepository;
 use App\Services\ValidatorService;
 use Illuminate\Database\Eloquent\Model;
@@ -63,10 +63,25 @@ class PessoaService implements PessoaServiceInterface
     {
         if(isset($data['cpf'])){
             $this->validateService->validateCpfOrFail($data['cpf']);
+            $this->validateCpfAlreadyExists($data['cpf'], $id);
         }
         if(isset($data['cep'])){
             $this->validateService->validateCepOrFail($data['cep']);
         }
         return $this->pessoaRepo->update($data, $id);
+    }
+
+    private function validateCpfAlreadyExists(string $cpf, int $id){
+        $people = Pessoa::where('id', '!=', $id)->get();
+        $subset = $people->map(function ($pessoa) {
+            return collect($pessoa->toArray())
+                ->only(['cpf'])
+                ->all();
+        });
+        foreach($subset as $pessoaCpf){
+            if($pessoaCpf['cpf'] === $cpf){
+                throw new \Exception('Cpf already registered in another pessoa', 409);
+            };
+        }
     }
 }
