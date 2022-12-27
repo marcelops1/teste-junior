@@ -24,7 +24,12 @@ class PessoaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nome' => 'nullable|string',
+            'sobrenome' => 'nullable|string',
+            'cpf' => 'nullable|string|min:11|max:11',
+            'celular' => 'nullable|string',
+            'logradouro' => 'nullable|string',
+            'cep' => 'nullable|string|min:8|max:8',
         ];
     }
 }
