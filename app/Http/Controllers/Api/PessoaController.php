@@ -29,11 +29,12 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        $people = $this->pessoaService->all();
-        if ($people) {
+        try {
+            $people = $this->pessoaService->all();
             return response()->json(['sucess' => true, 'payload' => $people], Response::HTTP_OK);
+        } catch (\Exception $err) {
+            return response()->json(['sucess' => false, 'message' => $err->getMessage()], Response::HTTP_NOT_FOUND);
         }
-        return response()->json($people, Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -55,11 +56,11 @@ class PessoaController extends Controller
      */
     public function show($id)
     {
-        try{
+        try {
             $pessoa = $this->pessoaService->find($id);
             return response()->json(['sucess' => true, 'payload' => $pessoa], Response::HTTP_OK);
-        }catch(ModelNotFoundException $e){
-            return response()->json(['sucess' => false, 'message' =>"Person with ID $id not found!"], Response::HTTP_NOT_FOUND);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['sucess' => false, 'message' => "Person with ID $id not found!"], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -73,7 +74,7 @@ class PessoaController extends Controller
     public function update(PessoaUpdateRequest $request, $id)
     {
         $this->pessoaService->find($id);
-        
+
         $pessoaUpdate = $this->pessoaService->update($request->all(), $id);
 
         return response()->json(['sucess' => true, 'message' => 'Pessoa updated successfully', 'payload' => $pessoaUpdate], Response::HTTP_ACCEPTED);
