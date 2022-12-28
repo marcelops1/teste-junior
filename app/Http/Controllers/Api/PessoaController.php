@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PessoaStoreRequest;
 use App\Http\Requests\PessoaUpdateRequest;
 use App\Services\PessoaService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -54,11 +55,12 @@ class PessoaController extends Controller
      */
     public function show($id)
     {
-        $pessoa = $this->pessoaService->find($id);
-        if ($pessoa) {
+        try{
+            $pessoa = $this->pessoaService->find($id);
             return response()->json(['sucess' => true, 'payload' => $pessoa], Response::HTTP_OK);
+        }catch(ModelNotFoundException $e){
+            return response()->json(['sucess' => false, 'message' =>"Person with ID $id not found!"], Response::HTTP_NOT_FOUND);
         }
-        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 
     /**
