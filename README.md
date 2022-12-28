@@ -1,78 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+  <h1 align="center">
+    ESSOR Teste João Paulo
+  </h1>
 </p>
 
-## About Laravel
+## 🖥️ Descrição do Projeto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplicação para cadastro de pessoas (CRUD) com validação de CEP e CPF:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Create:
+  - Validação de CEP via VIACEP.
+  - Validação de CPF válido.
+  - Validação de CPF único.
+- Read:
+  - Lista todas as pessoas.
+  - Lista pessoa por ID específico.
+- Update:
+  - Validação de CEP via VIACEP.
+  - Validação de CPF válido.
+  - Validação de CPF único para impedir atualização que duplicaria CPF no banco de dados.
+- Delete:
+  - Exclusão de pessoa por ID específico.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 💻 Tecnologias e Ferramentas
 
-## Learning Laravel
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 🚀 API:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+```yml
+POST /pessoa
+    - Rota para cadastro de pessoa
+    - headers: {}
+    - body: {
+        "nome": String | required
+        "sobrenome": String | required
+        "celular": String | required
+        "logradouro": String | required
+        "cep": String | required | 11 caracteres | cep válido
+        "cpf": String | required | 8 caracteres | cpf válido
+    }
+```
 
-## Contributing
+```yml
+GET /pessoa
+    - Rota que retorna todas as pessoas
+    - headers: {}
+    - body: {}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```yml
+GET /pessoa/{id}
+    - Rota que retorna pessoa com ID específico
+    - headers: {}
+    - body: {}
+```
 
-## Code of Conduct
+```yml
+PUT /pessoa/{id}
+    - Rota para atualizar dados de pessoa com ID específico
+    - headers: {}
+    - body: {
+        "nome": String | nullable
+        "sobrenome": String | nullable
+        "celular": String | nullable
+        "logradouro": String | nullable
+        "cep": String | nullable | 11 numeros | cep válido
+        "cpf": String | nullable | 8 numeros | cpf válido
+    }
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```yml
+DELETE /pessoa/{id}
+    - Rota que deleta pessoa com ID específico
+    - headers: {}
+    - body: {}
+```
+---
+## 💁🏻‍♂️ Instalação Manual
 
-## Security Vulnerabilities
+```bash
+$ git clone https://github.com/OliveiraaJP/teste-junior.git
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Crie o um arquivo .env seguindo o modelo do .env.example
 
-## License
+- Crie um banco de dados relacional de preferência (MySql, PostgreSQL, MariaDB) de acordo com os dados do .env 
+(projeto desenvolvido e testado usando MySql)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Faça as migrações:
+
+```bash
+$ php artisan migrate
+```
+
+- Gere a chave APP_KEY com o .env já criado:
+```bash
+$ php artisan key:generate
+```
+
+- Rode o servidor com:
+```bash
+$ php artisan serve
+```
+
+---
